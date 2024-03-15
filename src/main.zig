@@ -28,6 +28,10 @@ fn binarySearchGeneric(comptime T: type, array: []const T,
     var end: [*]const T = array.ptr + (array.len - 1);
     var mid: [*]const T = undefined;
     while ( @intFromPtr(end) >= @intFromPtr(start) ){
+        // Zig allows pointer arithmetic
+        // one can add integers to a pointer, but not other pointers
+        // so we determin the number of items to move and then add to start
+        // zig handles the sizeof(T) when adding to the pointer
         mid = start + (@intFromPtr(end) - @intFromPtr(start)) / @sizeOf(T) / 2;
         switch(comparator(search_val, mid[0])){
             .eq => return true,
